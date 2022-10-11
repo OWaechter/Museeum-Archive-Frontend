@@ -1,0 +1,79 @@
+/* ObjectsComponent's private CSS styles */
+.search input {
+  margin: 1rem 0;
+}
+
+.objects {
+  list-style-type: none;
+  padding: 0;
+}
+
+.objects li {
+  display: grid;
+  grid-template-columns: min-content max-content 1fr max-content max-content;
+  grid-template-areas: "badge name . edit delete";
+  margin: 1rem 0;
+  align-items: center;
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+.objects li .badge {
+  grid-area: badge;
+}
+
+.objects li .name {
+  grid-area: name;
+}
+
+.objects li button {
+  margin: 0.3rem;
+  padding: 0.3rem 0.8rem;
+}
+
+.objects li button.edit {
+  grid-area: edit;
+}
+
+.objects li button.delete {
+  grid-area: delete;
+}
+
+.objects li button:hover, .objects li button:focus {
+  color: #eee;
+  background-color: #000;
+}
+
+.objects .badge {
+  padding: 0.5rem 0.6rem;
+  color: white;
+  background-color: #435B60;
+  margin-right: 0.8rem;
+  border-radius: 4px 0 0 4px;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+
+.objects input {
+  max-width: 12rem;
+  padding: .25rem;
+}
+
+@media (max-width: 550px) {
+  .objects li {
+    grid-template-columns: min-content 1fr 1fr;
+    grid-template-rows: 2rem max-content;
+    grid-template-areas:
+      "badge name name"
+      "badge edit delete";
+  }
+
+  .objects li .name {
+    margin-top: 0.3rem;
+  }
+
+  .objects li button {
+    justify-self: center;
+  }
+}

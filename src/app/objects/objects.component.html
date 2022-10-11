@@ -1,0 +1,29 @@
+<h2>Objects</h2>
+<div class="search">
+  <label for="object-name">Object name: </label>
+  <input type="text" [(ngModel)]="objectName" id="object-name">
+
+  <button type="button" [disabled]="!objectName"
+    (click)="add(objectName)">Add object</button>
+  <button type="button" (click)="search(objectName)">
+    Search
+  </button>
+</div>
+
+<ul class="objects">
+  <li *ngFor="let object of objects">
+    <span class="badge">{{ object.id || -1 }}</span>
+    <span *ngIf="object!==editObjects; else editInput" class="name">{{object.name}}</span>
+    <ng-template #editInput>
+      <input #objectEditInput type="text" class="name" [value]="editObjects!.name" (blur)="edit(objectEditInput.value)" (keydown.enter)="edit(objectEditInput.value)"/>
+    </ng-template>
+    <button *ngIf="object!==editObjects" type="button" class="edit" title="edit object"
+      (click)="editObjects = object">
+      Edit
+    </button>
+    <button type="button" class="delete" title="delete object"
+      (click)="delete(object)">
+      Delete
+    </button>
+  </li>
+</ul>

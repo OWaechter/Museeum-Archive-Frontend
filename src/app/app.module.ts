@@ -1,34 +1,65 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { ObjectsListComponent } from './objects-list/objects-list.component';
-import { ObjectsDetailComponent } from './objects-detail/objects-detail.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpClientXsrfModule } from '@angular/common/http';
+
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
-import { RouterModule, Routes } from '@angular/router';
+
+import { RequestCache, RequestCacheWithMap } from './request-cache.service';
+
+import { AppComponent } from './app.component';
+import { AuthService } from './auth.service';
+import { ConfigComponent } from './config/config.component';
+import { DownloaderComponent } from './downloader/downloader.component';
+import { ObjectsComponent } from './objects/objects.component';
+import { HttpErrorHandler } from './http-error-handler.service';
+import { MessageService } from './messages/message.service';
+import { MessagesComponent } from './messages/messages.component';
+import { PackageSearchComponent } from './package-search/package-search.component';
+import { UploaderComponent } from './uploader/uploader.component';
+
+import { httpInterceptorProviders } from './http-interceptors/index';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ObjectsListComponent,
-    ObjectsDetailComponent,
-    DashboardComponent
-  ],
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule,
+    // import HttpClientModule after BrowserModule.
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'My-Xsrf-Cookie',
+      headerName: 'My-Xsrf-Header',
+    }),
 
+    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
+    // and returns simulated server responses.
+    // Remove it when a real server is ready to receive requests.
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, {
+        dataEncapsulation: false,
+        passThruUnknownUrl: true,
+        put204: false // return entity after PUT/update
+      }
+    )
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    ConfigComponent,
+    DownloaderComponent,
+    ObjectsComponent,
+    MessagesComponent,
+    UploaderComponent,
+    PackageSearchComponent,
+  ],
+  providers: [
+    AuthService,
+    HttpErrorHandler,
+    MessageService,
+    { provide: RequestCache, useClass: RequestCacheWithMap },
+    httpInterceptorProviders
+  ],
+  bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}

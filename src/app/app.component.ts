@@ -6,5 +6,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Museeums Archiv';
+  showObjects = true;
+  showConfig = true;
+  showDownloader = true;
+  showUploader = true;
+  showSearch = true;
+
+  toggleObjects() { this.showObjects = !this.showObjects; }
+  toggleConfig() { this.showConfig = !this.showConfig; }
+  toggleDownloader() { this.showDownloader = !this.showDownloader; }
+  toggleUploader() { this.showUploader = !this.showUploader; }
+  toggleSearch() { this.showSearch = !this.showSearch; }
 }
