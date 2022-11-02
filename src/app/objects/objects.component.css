@@ -76,4 +76,7 @@
   .objects li button {
     justify-self: center;
   }
+  table {
+    width: 100%;
+  }
 }

@@ -1,7 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-
+import { MatTableDataSource } from '@angular/material/table';
 import { Object } from './object';
 import { ObjectService } from './object.service';
+
+export interface ObjectElement {
+  id: string;
+  name: string;
+}
+
 
 @Component({
   selector: 'app-objects',
@@ -10,11 +16,16 @@ import { ObjectService } from './object.service';
   styleUrls: ['./objects.component.css']
 })
 export class ObjectsComponent implements OnInit {
+  public dataSource: MatTableDataSource<Object>;
+  public displayedColumns: string[] = ['id', 'name'];
+
   objects: Object[] = [];
   editObjects: Object | undefined; // the object currently being edited
   objectName = '';
 
-  constructor(private objectService: ObjectService) {}
+  constructor(private objectService: ObjectService) {
+    this.dataSource = new MatTableDataSource();
+  }
 
   @ViewChild('object')
   set objectEditInput(element: ElementRef<HTMLInputElement>) {
@@ -24,7 +35,7 @@ export class ObjectsComponent implements OnInit {
   }
 
   ngOnInit() {
-     this.getObjects();
+    this.getObjects();
   }
 
   getObjects(): void {
@@ -51,10 +62,6 @@ export class ObjectsComponent implements OnInit {
     this.objectService
       .deleteObject(object.id)
       .subscribe();
-    /*
-    // oops ... subscribe() is missing so nothing happens
-    this.objectsService.deleteObject(object.id);
-    */
   }
 
   edit(objectName: string) {

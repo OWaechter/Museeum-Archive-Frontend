@@ -10,10 +10,7 @@ import { MessageService } from '../messages/message.service';
 
 @Injectable({ providedIn: 'root' })
 export class ObjectService {
-
-//  private objectsUrl = 'https://museeumarchivebackend.herokuapp.com/objects';  // URL to web api
   private objectsUrl = '';  // URL to in-memory-database
-  //private objectsUrl = 'http://echo.jsontest.com/id/1/name/test'
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
